@@ -2,7 +2,8 @@
   "name": "todo-app",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "repository": "git@github.com:rogiervanstraten/todo-app.git",
+  "author": "Rogier van Straten <rogier@from89.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
