@@ -1,0 +1,9 @@
+version: '3'
+services:
+  main:
+    volumes:
+      - .:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.ssh:/root/.ssh
+
+    command: /bin/sh -c "while sleep 1000; do :; done"

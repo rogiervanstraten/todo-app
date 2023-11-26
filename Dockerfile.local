@@ -3,6 +3,13 @@ FROM node:21.2.0-alpine3.17
 RUN apk update && apk upgrade && \
 		apk add --no-cache --virtual .gyp python3 make g++ libtool autoconf automake git openssh tini
 
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.4/zsh-in-docker.sh)" -- \
+    -t robbyrussell \
+    -p git \
+    -p ssh-agent \
+    -p https://github.com/zsh-users/zsh-autosuggestions \
+    -p https://github.com/zsh-users/zsh-completions
+
 WORKDIR /app
 
 COPY . .
