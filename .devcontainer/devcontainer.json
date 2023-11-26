@@ -1,0 +1,24 @@
+{
+  "name": "Todo App",
+  "dockerComposeFile": ["../docker-compose.local.yml", "./docker-compose.yml"],
+  "service": "main",
+  "workspaceFolder": "/app",
+  "forwardPorts": [3000],
+  "shutdownAction": "none",
+  "postStartCommand": "npm run start:dev",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.vscode-js-profile-flame",
+        "orta.vscode-jest"
+      ]
+    }
+  }
+}
