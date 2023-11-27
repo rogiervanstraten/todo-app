@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import configuration from './configuration';
+import { UserUseCasesModule } from './use-cases/user/user-use-cases.module';
+import { UserController } from './controllers/user.controller';
 
 @Module({
   imports: [
@@ -14,7 +16,8 @@ import configuration from './configuration';
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
     }),
+    UserUseCasesModule,
   ],
-  controllers: [],
+  controllers: [UserController],
 })
 export class AppModule {}
