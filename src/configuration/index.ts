@@ -12,7 +12,7 @@ export default () => ({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     synchronize: true,
-    entities: [join(__dirname, '../', '**/*.entity.ts')],
+    entities: [join(__dirname, '../', '**/*.entity{.ts,.js}')],
     autoLoadEntities: true,
     namingStrategy: new SnakeNamingStrategy(),
   } as TypeOrmModuleOptions,
