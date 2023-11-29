@@ -6,6 +6,10 @@ import configuration from './configuration';
 import { UserUseCasesModule } from './use-cases/user/user-use-cases.module';
 import { UserController } from './controllers/user.controller';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { TodoListController } from './controllers/todo-list.controller';
+import { TodoListUseCasesModule } from './use-cases/todo-list/todo-list-use-cases.module';
+import { TodoListTaskController } from './controllers/todo-list-task.controller';
+import { TodoListTaskUseCasesModule } from './use-cases/todo-list-task/todo-list-task-use-cases.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { User } from './core/entities/user.entity';
 
@@ -20,6 +24,8 @@ import { User } from './core/entities/user.entity';
       inject: [ConfigService],
     }),
     UserUseCasesModule,
+    TodoListUseCasesModule,
+    TodoListTaskUseCasesModule,
     TypeOrmModule.forFeature([User]),
   ],
   providers: [
@@ -28,6 +34,6 @@ import { User } from './core/entities/user.entity';
       useClass: CurrentUserInterceptor,
     },
   ],
-  controllers: [UserController],
+  controllers: [UserController, TodoListController, TodoListTaskController],
 })
 export class AppModule {}
