@@ -4,6 +4,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export default () => ({
   port: +process.env.PORT || 3000,
+  mockTodoServer: process.env.MOCK_TODO_API_URL,
   database: {
     type: 'postgres',
     host: process.env.POSTGRES_HOST,

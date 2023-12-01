@@ -11,22 +11,18 @@ import {
   Injectable,
   createParamDecorator,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { IUserService } from 'src/core/abstracts/user-service.interface';
 import { User } from 'src/core/entities/user.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 // A demo currentUser interceptor to decorate the request with a "currentUser"
 export class CurrentUserInterceptor implements NestInterceptor {
-  constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-  ) {}
+  constructor(private userService: IUserService) {}
 
   async intercept(context: ExecutionContext, handler: CallHandler) {
     const request = context.switchToHttp().getRequest();
 
-    const user = (await this.userRepository.find({ take: 1 }))?.[0];
+    const user = (await this.userService.findAll())?.[0];
     request.currentUser = user;
 
     return handler.handle();

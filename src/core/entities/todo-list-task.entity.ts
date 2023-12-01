@@ -16,6 +16,9 @@ export class TodoListTask {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true })
+  integrationEntityId: string;
+
   @Column()
   title: string;
 

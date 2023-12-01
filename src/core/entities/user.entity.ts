@@ -13,6 +13,9 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true })
+  integrationEntityId: string;
+
   @Column()
   fullName: string;
 

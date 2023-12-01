@@ -1,0 +1,16 @@
+{
+  "name": "mock-todo",
+  "version": "1.0.0",
+  "description": "This serves as the mock todo server and client, providing a fundamental API client and server to demonstrate intercommunication between services. Please note that authentication has not been implemented in this basic setup.",
+  "main": "mock-todo-client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc mock-todo-client.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^5.3.2"
+  }
+}
