@@ -1,73 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Todo App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This document describes the functionality and use case of the TodoApp application as well as the “path”, decisions and assumptions, I took.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+During the system design phase of this application I took “shortcuts” to come to the following result. Whenever shortcuts were taken they would be described in this document.
 
-## Description
+## Requirements
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Build a service to manage Todos.
 
-## Installation
+### Features
 
-```bash
-$ npm install
-```
+- [x] API to query Todos (potentially many!)
+  - [x] Query Todos that are not done
+  - [x] Todos can be grouped in lists
+- [x] API to add a Todo
+- [x] API to update Todos
+  - [x] Mark Todos as done
+- [ ] We would like you to integrate with another service provider. It can be any Todo service (e.g. Microsoft Todo APIs), or you can also use a mock provider. Todos should be kept in sync between our service and the third-party integration
+  - [ ] Todos created in the third-party integration should always be created in our service
+  - [ ] The status of todos should always be in sync between our service and the integration
 
-## Running the app
+### Tech
 
-```bash
-# development
-$ npm run start
+- If possible use a relational DB, PostgreSQL would be perfect!
+- Provide data model for Todos
 
-# watch mode
-$ npm run start:dev
+**Bonus**
 
-# production mode
-$ npm run start:prod
-```
+- Let's create GraphQL APIs
+- typescript would be great, but most common languages are okay
 
-## Test
+### Note
 
-```bash
-# unit tests
-$ npm run test
+- We expect you to treat the challenge as a real world production app development that is meant to:
+  - Scale to 10+ engineers contributing simultaneous.
+- Wherever you might have to take shortcuts point it out and explain what you would do differently!
+- We would like you to take assumptions and decisions of how the product and the third-party integration should work, if needed you can highlight and explain decisions in a README inside the project.
 
-# e2e tests
-$ npm run test:e2e
+# Shortcuts and design decisions
 
-# test coverage
-$ npm run test:cov
-```
+- Clean architecture
+- Presentation layer can easily added like graphql for example
 
-## Support
+## Configuration
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+A robust application has higher order centralized features like logging, error handling, or request logging. In this demo I’ve skipped implementation as such.
 
-## Stay in touch
+## Background tasks
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Background tasks are a essential part of keeping the systems in sync. The implemented queue is now running on the same application instance. Ideally this would be off loaded. The task queue can exists as a external service ( eg: Cloud Tasks ) and the “jobs” can be executed on separate instances “workers”.
 
-## License
+Scheduler can be centralized and not part of the runtime.
 
-Nest is [MIT licensed](LICENSE).
+## Pagination
+
+The pagination implemented in this todo-app is the plain offset, limit implementation. For a more robust and faster at scale approach I would go for the cursor based pagination instead.
+
+## Data model
+
+In the current implementation the “synchronize” feature was used to keep the data model in sync with the database. In a more complete application setup I would go for a database migration setup.
+
+The following data model represents the database structure and relationship between its entities. The current data model only assumes there is 1 integration. This shortcut could be a lot more scalable and decoupled by introducing the following tables and relations instead.
+
+- **Integration**, a table that holds all the possible integrations like “Todoist”, “Microsoft”, “Google”
+- **UserIntegrationConnection,** a table that holds all the “granted” integrations by the users
+- **EntityIntegrationAssociation**, a table that holds the references from each integration record to each entity in our data model
+
+A robust system should track changes and register who performed those changes. Therefor it would be a great addition to have change-log tables for this purpose.
+
+### Sync
+
+- Race condition mitigation
+- Add versioning to the todo mutations
+
+### Tests
+
+Another shortcut that was taken was not writing tests
