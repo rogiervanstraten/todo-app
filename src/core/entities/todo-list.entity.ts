@@ -15,6 +15,12 @@ export class TodoList {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: true })
+  integrationName: string;
+
+  @Column({ nullable: true })
+  integrationEntityId: string;
+
   @ManyToOne(() => User, (user) => user.todoLists, { nullable: false })
   user: User;
 
