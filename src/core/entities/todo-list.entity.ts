@@ -15,7 +15,7 @@ export class TodoList {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, (user) => user.todoLists)
+  @ManyToOne(() => User, (user) => user.todoLists, { nullable: false })
   user: User;
 
   @Column()
