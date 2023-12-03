@@ -14,7 +14,13 @@ export class User {
   id: string;
 
   @Column({ nullable: true })
+  integrationName: string;
+
+  @Column({ nullable: true })
   integrationEntityId: string;
+
+  @Column({ nullable: true })
+  integrationLastSyncDate: Date;
 
   @Column()
   fullName: string;

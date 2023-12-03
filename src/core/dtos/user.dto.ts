@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  IsOptional,
+  IsDate,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -8,4 +14,26 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   fullName: string;
+}
+
+export class PatchUserDto {
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  fullName?: string;
+
+  @IsOptional()
+  @IsString()
+  integrationName?: string;
+
+  @IsOptional()
+  @IsString()
+  integrationEntityId?: string;
+
+  @IsOptional()
+  @IsDate()
+  integrationLastSyncDate?: Date;
 }

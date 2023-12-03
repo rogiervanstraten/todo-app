@@ -12,7 +12,7 @@ export class UserUseCases {
   }
 
   findOne(id: string): Promise<User | undefined> {
-    return this.userService.findOne(id);
+    return this.userService.findOne({ id });
   }
 
   createUser(createUserDto: CreateUserDto): Promise<User> {

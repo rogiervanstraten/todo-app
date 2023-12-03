@@ -41,7 +41,7 @@ export class MockTodoClient {
   }
 
   async patchTodoListTask({ id, listId, patch }: PatchTodoListTaskInput) {
-    return this.request<TodoList>(`/todo/lists/${listId}/tasks/${id}`, {
+    return this.request<TodoListTask>(`/todo/lists/${listId}/tasks/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(patch),
     });

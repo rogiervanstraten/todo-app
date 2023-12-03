@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUserService } from 'src/core/abstracts/user-service.interface';
-import { CreateUserDto } from 'src/core/dtos/user.dto';
+import { CreateUserDto, PatchUserDto } from 'src/core/dtos/user.dto';
 import { User } from 'src/core/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere, FindManyOptions } from 'typeorm';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -12,12 +12,12 @@ export class UserService implements IUserService {
     private userRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  findAll(args?: FindManyOptions<User>): Promise<User[]> {
+    return this.userRepository.find(args);
   }
 
-  findOne(id: string): Promise<User | undefined> {
-    return this.userRepository.findOneBy({ id });
+  findOne(args: FindOptionsWhere<User>): Promise<User | undefined> {
+    return this.userRepository.findOneBy(args);
   }
 
   createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -28,5 +28,11 @@ export class UserService implements IUserService {
     const user = this.userRepository.save(newUser);
 
     return user;
+  }
+
+  async patchUser(id: string, patch: PatchUserDto): Promise<User> {
+    await this.userRepository.update(id, patch);
+
+    return this.userRepository.findOneBy({ id });
   }
 }

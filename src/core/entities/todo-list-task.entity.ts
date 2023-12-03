@@ -17,6 +17,9 @@ export class TodoListTask {
   id: string;
 
   @Column({ nullable: true })
+  integrationName: string;
+
+  @Column({ nullable: true })
   integrationEntityId: string;
 
   @Column()

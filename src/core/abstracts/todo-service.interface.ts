@@ -20,8 +20,8 @@ export interface FindAllListTasksArgs {
 }
 
 export interface FindOneListTaskArgs {
-  userId: string;
-  listId: string;
+  userId?: string;
+  listId?: string;
   id: string;
 }
 
@@ -46,12 +46,10 @@ export abstract class ITodoService {
   abstract findAllLists(args?: FindAllListsArgs): Promise<TodoList[]>;
   abstract findOneList(args?: FindOneListArgs): Promise<TodoList>;
   abstract createTodoList(args: CreateTodoListInput): Promise<TodoList>;
-
   abstract findAllListTasks(
     args: FindAllListTasksArgs,
   ): Promise<TodoListTask[]>;
   abstract findOneListTask(args: FindOneListTaskArgs): Promise<TodoListTask>;
-
   abstract createTodoListTask(
     args: CreateTodoListTaskInput,
   ): Promise<TodoListTask>;
